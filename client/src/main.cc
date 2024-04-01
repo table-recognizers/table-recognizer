@@ -1,24 +1,30 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-int main() {
-  std::cout << "Test" << std::endl;
+#include "client/inc/console_UI.h"
+#include "client/inc/line_detector.h"
 
-  cv::VideoCapture cap(0);  // open camera
-  if (!cap.isOpened())      // check if we succeeded
-    return 1;
-  cv::Mat edges;
-  cv::namedWindow("edges", 1);
-  while (1) {
-    cv::Mat frame;
-    cap >> frame;  // get a new frame from camera
-    cv::cvtColor(frame, edges,
-                 cv::COLOR_BGR2GRAY);  // transform to black and white
-    cv::GaussianBlur(edges, edges, cv::Size(7, 7), 1.5, 1.5);  // blur
-    cv::Canny(edges, edges, 0, 30, 3);  // highlight edges
-    cv::imshow("edges", edges);
-    if (cv::waitKey(30) >= 0) break;
+namespace ld = table_recognizer::client::line_detector;
+namespace UI = table_recognizer::client::UI;
+
+int main() {
+  std::unique_ptr<UI::UI_base> ui = std::make_unique<UI::ConsoleUI>();
+
+  std::string path_to_image = ui->PickPathToImage();
+  cv::Mat image = cv::imread(path_to_image);
+
+  cv::Mat detected_edges;
+  std::vector<ld::Line> lines = ld::DetectLines(image, detected_edges);
+  cv::cvtColor(detected_edges, detected_edges, cv::COLOR_GRAY2BGR);
+  for (auto line : lines) {
+    cv::line(detected_edges, line.start, line.end, cv::Scalar(0, 0, 255),
+             cv::LINE_4);
   }
+  std::cout << "Found lines: " << lines.size() << std::endl;
+  cv::namedWindow("edges", cv::WindowFlags::WINDOW_GUI_EXPANDED);
+  cv::imshow("edges", detected_edges);
+
+  if (cv::waitKey(0) >= 0) return 0;
 
   return 0;
 }
