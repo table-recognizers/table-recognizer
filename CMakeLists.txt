@@ -7,4 +7,12 @@ message("OpenCV_DIR is '$ENV{OpenCV_DIR}'")
 
 find_package(OpenCV REQUIRED)
 
-add_subdirectory(client)
+set(BUILD_COMPONENT "BOTH" CACHE STRING "Component to build (CLIENT, SERVER, or BOTH)")
+
+if(${BUILD_COMPONENT} STREQUAL "CLIENT" OR ${BUILD_COMPONENT} STREQUAL "BOTH")
+  add_subdirectory(client)
+endif()
+
+if(${BUILD_COMPONENT} STREQUAL "SERVER" OR ${BUILD_COMPONENT} STREQUAL "BOTH")
+  add_subdirectory(server)
+endif()
