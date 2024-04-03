@@ -1,4 +1,4 @@
-#include "client/inc/ImageLoader.h"
+#include "client/inc/image_loader.h"
 
 namespace table_recognizer::client {
 
