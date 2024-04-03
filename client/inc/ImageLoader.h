@@ -1,10 +1,8 @@
-#ifndef TABLE_RECOGNIZER_CLIENT_ImageLoader_H
-#define TABLE_RECOGNIZER_CLIENT_ImageLoader_H
+#ifndef TABLE_RECOGNIZER_CLIENT_IMAGE_LOADER_H_
+#define TABLE_RECOGNIZER_CLIENT_IMAGE_LOADER_H_
 
 #include <iostream>
-
 #include <opencv2/opencv.hpp>
-
 
 namespace table_recognizer::client {
 
@@ -12,4 +10,4 @@ cv::Mat LoadImage(std::string path);
 
 }  // namespace table_recognizer::client
 
-#endif
+#endif  // TABLE_RECOGNIZER_CLIENT_IMAGE_LOADER_H_
