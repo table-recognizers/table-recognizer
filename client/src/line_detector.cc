@@ -11,10 +11,10 @@ std::vector<Line> DetectLines(const cv::Mat& image, cv::Mat& detected_edges) {
   cv::Mat gray;
   cv::cvtColor(image, gray, cv::COLOR_BGR2GRAY);
 
-  cv::Canny(gray, detected_edges, 50, 100);
+  cv::Canny(gray, detected_edges, 50, 200);
 
   std::vector<cv::Vec4f> vec_lines;
-  cv::HoughLinesP(detected_edges, vec_lines, 1, M_PI / 180, 200, 100, 5);
+  cv::HoughLinesP(detected_edges, vec_lines, 1, M_PI / 180, 220, 10, 250);
   auto lines = std::vector<Line>(vec_lines.size());
   for (size_t i = 0; i < vec_lines.size(); i++) {
     lines[i].start = cv::Point2f(vec_lines[i][0], vec_lines[i][1]);
