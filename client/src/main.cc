@@ -16,9 +16,11 @@ int main() {
   cv::Mat detected_edges;
   std::vector<ld::Line> lines = ld::DetectLines(image, detected_edges);
   cv::cvtColor(detected_edges, detected_edges, cv::COLOR_GRAY2BGR);
+  int r = 255, g = 0, b = 0;
   for (auto line : lines) {
-    cv::line(detected_edges, line.start, line.end, cv::Scalar(0, 0, 255),
+    cv::line(detected_edges, line.start, line.end, cv::Scalar(b, g, r),
              cv::LINE_4);
+    g = (g + 10) % 255;
   }
   std::cout << "Found lines: " << lines.size() << std::endl;
   cv::namedWindow("edges", cv::WindowFlags::WINDOW_GUI_EXPANDED);
