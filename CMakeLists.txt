@@ -18,6 +18,28 @@ set(HTTPLIB_COMPILE ON)
 FetchContent_MakeAvailable(httplib)
 # =============================================================================
 
+# Adding rapidjson library ====================================================
+FetchContent_Declare(rapidjson
+  GIT_REPOSITORY https://github.com/Tencent/rapidjson
+  GIT_TAG v1.1.0
+  GIT_SHALLOW TRUE
+)
+FetchContent_GetProperties(rapidjson)
+if(NOT rapidjson_POPULATED)
+  FetchContent_Populate(rapidjson)
+  add_library(rapidjson INTERFACE IMPORTED)
+  target_include_directories(rapidjson INTERFACE ${rapidjson_SOURCE_DIR}/include)
+endif()
+
+# Adding googletest library ===================================================
+FetchContent_Declare(googletest
+  GIT_REPOSITORY https://github.com/google/googletest
+  GIT_TAG v1.14.0
+  GIT_SHALLOW TRUE
+)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(googletest)
+
 set(BUILD_COMPONENT "BOTH" CACHE STRING "Component to build (CLIENT, SERVER, or BOTH)")
 
 if(${BUILD_COMPONENT} STREQUAL "CLIENT" OR ${BUILD_COMPONENT} STREQUAL "BOTH")
