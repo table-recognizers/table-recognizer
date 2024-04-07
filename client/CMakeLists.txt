@@ -23,8 +23,9 @@ foreach(TEST_SRC ${TEST_SOURCES})
   add_executable(${TEST_NAME} ${TEST_SRC})
   target_link_libraries(${TEST_NAME} client_sources gtest_main)
   gtest_discover_tests(${TEST_NAME})
+  list(APPEND TEST_TARGETS ${TEST_NAME})
 endforeach()
 
 add_custom_target(run_tests ALL
   COMMAND ${CMAKE_CTEST_COMMAND}
-  DEPENDS ${TEST_NAME})
+  DEPENDS ${TEST_TARGETS})
