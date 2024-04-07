@@ -4,7 +4,8 @@ set(TEST_DIR test)
 
 # Creating a static library from sources
 file(GLOB SOURCES "${SRC_DIR}/*.cc")
-list(REMOVE_ITEM SOURCES "${SOURCE_DIR}/main.cc")
+get_filename_component(MAIN_FILE "${SRC_DIR}/main.cc" ABSOLUTE)
+list(REMOVE_ITEM SOURCES ${MAIN_FILE})
 add_library(client_sources STATIC ${SOURCES})
 target_include_directories(client_sources PUBLIC ${INC_DIR} ${OpenCV_INCLUDE_DIRS})
 
