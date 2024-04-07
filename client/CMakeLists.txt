@@ -13,7 +13,7 @@ target_include_directories(client_sources PUBLIC ${INC_DIR} ${OpenCV_INCLUDE_DIR
 add_executable(client_main ${SRC_DIR}/main.cc)
 target_link_libraries(client_main client_sources ${OpenCV_LIBS} httplib)
 
-# Add tests
+# Add and run tests
 enable_testing()
 include(GoogleTest)
 file(GLOB TEST_SOURCES "${TEST_DIR}/*.cc")
