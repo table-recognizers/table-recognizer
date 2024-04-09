@@ -42,6 +42,8 @@ FetchContent_MakeAvailable(googletest)
 
 set(BUILD_COMPONENT "BOTH" CACHE STRING "Component to build (CLIENT, SERVER, or BOTH)")
 
+add_subdirectory(utils)
+
 if(${BUILD_COMPONENT} STREQUAL "CLIENT" OR ${BUILD_COMPONENT} STREQUAL "BOTH")
   add_subdirectory(client)
 endif()
