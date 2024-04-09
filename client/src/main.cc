@@ -1,13 +1,13 @@
 #include "client/inc/application.h"
 
 namespace ld = table_recognizer::client::line_detector;
-namespace UI = table_recognizer::client::UI;
+namespace cliUI = table_recognizer::client::UI;
 namespace utils = table_recognizer::utils;
 
 namespace application = table_recognizer::client::application;
 
 int main() {
-  std::unique_ptr<UI::UI_base> ui = std::make_unique<UI::ConsoleUI>();
+  std::unique_ptr<cliUI::UI_base> ui = std::make_unique<cliUI::ConsoleUI>();
 
   application::Application app(std::move(ui));
 
