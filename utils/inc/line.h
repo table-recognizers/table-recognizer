@@ -6,8 +6,8 @@
 namespace table_recognizer::utils {
 
 struct Line {
-  cv::Point2f start;
-  cv::Point2f end;
+  cv::Point start;
+  cv::Point end;
 };
 
 }  // namespace table_recognizer::utils
