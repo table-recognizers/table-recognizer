@@ -27,8 +27,6 @@ FetchContent_Declare(rapidjson
 FetchContent_GetProperties(rapidjson)
 if(NOT rapidjson_POPULATED)
   FetchContent_Populate(rapidjson)
-  add_library(rapidjson INTERFACE IMPORTED)
-  target_include_directories(rapidjson INTERFACE ${rapidjson_SOURCE_DIR}/include)
 endif()
 
 # Adding googletest library ===================================================
