@@ -8,6 +8,10 @@
 #include "client/inc/console_UI.h"
 #include "client/inc/line_detector.h"
 #include "client/inc/table.h"
+#include "httplib.h"
+#include "rapidjson/document.h"
+#include "rapidjson/stringbuffer.h"
+#include "rapidjson/writer.h"
 
 namespace table_recognizer::client::application {
 
@@ -15,6 +19,9 @@ namespace ld = table_recognizer::client::line_detector;
 namespace ui = table_recognizer::client::UI;
 namespace table = table_recognizer::client::table;
 namespace utils = table_recognizer::utils;
+
+#define SERVER_ADDRESS "127.0.0.1"
+#define SERVER_PORT 8080
 
 class Application {
  public:
@@ -25,6 +32,7 @@ class Application {
                                              cv::Mat& detected_edges);
   void ShowLinesOnImage(const cv::Mat image,
                         const std::vector<utils::Line> lines);
+  httplib::Result TrySendLinesToServer(std::vector<utils::Line> lines);
   Application(std::unique_ptr<ui::UI_base> UI);
 };
 

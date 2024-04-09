@@ -15,6 +15,12 @@ int main() {
   cv::Mat detected_edges_on_image;
   std::vector<utils::Line> lines_on_image =
       app.GetLinesFromImage(inputted_image, detected_edges_on_image);
+  httplib::Result result = app.TrySendLinesToServer(lines_on_image);
+  if (result && result->status == 200) {
+    std::cout << "Data sent successfully to the server" << std::endl;
+  } else {
+    std::cout << "Failed to send data to the server" << std::endl;
+  }
   app.ShowLinesOnImage(detected_edges_on_image, lines_on_image);
 
   return 0;

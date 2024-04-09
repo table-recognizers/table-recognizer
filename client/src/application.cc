@@ -36,6 +36,33 @@ void Application::ShowLinesOnImage(const cv::Mat image,
   if (cv::waitKey(0) >= 0) return;
 }
 
+httplib::Result Application::TrySendLinesToServer(std::vector<utils::Line> lines) {
+  rapidjson::Document d;
+  d.SetArray();
+  for (const auto& line : lines) {
+    rapidjson::Value obj(rapidjson::kObjectType);
+    rapidjson::Value start(rapidjson::kArrayType);
+    start.PushBack(line.start.x, d.GetAllocator());
+    start.PushBack(line.start.y, d.GetAllocator());
+    obj.AddMember("start", start, d.GetAllocator());
+    rapidjson::Value end(rapidjson::kArrayType);
+    end.PushBack(line.end.x, d.GetAllocator());
+    end.PushBack(line.end.y, d.GetAllocator());
+    obj.AddMember("end", end, d.GetAllocator());
+    d.PushBack(obj, d.GetAllocator());
+  }
+  rapidjson::StringBuffer buffer;
+  rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+  d.Accept(writer);
+
+  httplib::Client client(SERVER_ADDRESS, SERVER_PORT);
+  httplib::Headers headers = {{"Content-Type", "application/json"}};
+  httplib::Result res =
+      client.Post("/lines", headers, buffer.GetString(), "application/json");
+
+  return res;
+}
+
 Application::Application(std::unique_ptr<ui::UI_base> UI)
     : UI_(std::move(UI)) {}
 
