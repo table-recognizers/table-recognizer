@@ -5,6 +5,7 @@ namespace table_recognizer::client::application {
 namespace ld = table_recognizer::client::line_detector;
 namespace ui = table_recognizer::client::UI;
 namespace table = table_recognizer::client::table;
+namespace utils = table_recognizer::utils;
 
 cv::Mat Application::GetImage() {
   std::string path_to_image = UI_->PickPathToImage();
@@ -12,19 +13,20 @@ cv::Mat Application::GetImage() {
   return image;
 }
 
-std::vector<ld::Line> Application::GetLinesFromImage(const cv::Mat image,
-                                                     cv::Mat& detected_edges) {
-  std::vector<ld::Line> lines = ld::DetectLines(image, detected_edges);
+std::vector<utils::Line> Application::GetLinesFromImage(
+    const cv::Mat image, cv::Mat& detected_edges) {
+  std::vector<utils::Line> lines = ld::DetectLines(image, detected_edges);
   return lines;
 }
 
 void Application::ShowLinesOnImage(const cv::Mat image,
-                                   const std::vector<ld::Line> lines) {
+                                   const std::vector<utils::Line> lines) {
   cv::Mat image_with_lines(image);
   cv::cvtColor(image_with_lines, image_with_lines, cv::COLOR_GRAY2BGR);
   int r = 255, g = 0, b = 0;
   for (auto line : lines) {
-    cv::line(image_with_lines, line.start, line.end, cv::Scalar(b, g, r), cv::LINE_4);
+    cv::line(image_with_lines, line.start, line.end, cv::Scalar(b, g, r),
+             cv::LINE_4);
     g = (g + 10) % 255;
   }
   std::cout << "Found lines: " << lines.size() << std::endl;

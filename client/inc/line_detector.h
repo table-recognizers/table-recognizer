@@ -8,15 +8,14 @@
 #include <opencv2/opencv.hpp>
 #include <vector>
 
+#include "utils/inc/line.h"
+
 namespace table_recognizer::client::line_detector {
 
-struct Line {
-  cv::Point2f start;
-  cv::Point2f end;
-};
+namespace utils = table_recognizer::utils;
 
-std::vector<Line> DetectLines(const cv::Mat& image);
-std::vector<Line> DetectLines(const cv::Mat& image, cv::Mat& detected_edges);
+std::vector<utils::Line> DetectLines(const cv::Mat& image);
+std::vector<utils::Line> DetectLines(const cv::Mat& image, cv::Mat& detected_edges);
 
 }  // namespace table_recognizer::client::line_detector
 

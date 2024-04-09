@@ -14,15 +14,17 @@ namespace table_recognizer::client::application {
 namespace ld = table_recognizer::client::line_detector;
 namespace ui = table_recognizer::client::UI;
 namespace table = table_recognizer::client::table;
+namespace utils = table_recognizer::utils;
 
 class Application {
  public:
   std::unique_ptr<table_recognizer::client::UI::UI_base> UI_;
 
   cv::Mat GetImage();
-  std::vector<ld::Line> GetLinesFromImage(const cv::Mat image,
-                                          cv::Mat& detected_edges);
-  void ShowLinesOnImage(const cv::Mat image, const std::vector<ld::Line> lines);
+  std::vector<utils::Line> GetLinesFromImage(const cv::Mat image,
+                                             cv::Mat& detected_edges);
+  void ShowLinesOnImage(const cv::Mat image,
+                        const std::vector<utils::Line> lines);
   Application(std::unique_ptr<ui::UI_base> UI);
 };
 

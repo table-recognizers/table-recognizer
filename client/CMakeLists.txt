@@ -7,6 +7,7 @@ file(GLOB SOURCES "${SRC_DIR}/*.cc")
 get_filename_component(MAIN_FILE "${SRC_DIR}/main.cc" ABSOLUTE)
 list(REMOVE_ITEM SOURCES ${MAIN_FILE})
 add_library(client_sources STATIC ${SOURCES})
+target_link_libraries(client_sources PRIVATE utils_lib)
 target_include_directories(client_sources PUBLIC ${INC_DIR} ${OpenCV_INCLUDE_DIRS})
 
 # Creating executable file for main.cpp
