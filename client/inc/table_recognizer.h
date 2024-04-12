@@ -11,12 +11,11 @@
 
 namespace table_recognizer::client::table_recognizer {
 
-class Recogniser {
-
-table::Table recogise (cv::Mat image);
-
+class Recognizer {
+ public:
+  table::Table Recognize(cv::Mat image);
 };
 
 }  // namespace table_recognizer::client::table_recognizer
 
-#endif
+#endif  // TABLE_RECOGNIZER_CLIENT_TABLE_RECOGNIZER_H_
