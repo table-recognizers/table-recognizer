@@ -2,33 +2,19 @@
 
 namespace table_recognizer::client::table {
 
-Table::Table(int NWidth, int NHeight) {
-  Width = NWidth;
-  Height = NHeight;
-  table = new std::string*[Width];
-  for (int i = 0; i < Width; i++) {
-    table[i] = new std::string[Height];
-  }
+Table::Table(size_t width, size_t height) : width_(width), height_(height) {
+  table_ = std::vector<std::vector<std::string>>(
+      width, std::vector<std::string>(height));
 }
 
-int Table::getMx() { 
+size_t Table::getWidth() { return width_; }
 
-return Width; 
-}
+size_t Table::getHeight() { return height_; }
 
-int Table::getMy() { 
+std::string Table::getCell(size_t x, size_t y) { return table_[x][y]; }
 
-return Height; 
-}
-
-void Table::set(int x, int y, std::string data) { 
-
-table[x][y] = data; 
-}
-
-std::string Table::get(int x, int y) { 
-
-return table[x][y]; 
+void Table::setCell(size_t x, size_t y, std::string data) {
+  table_[y][x] = data;
 }
 
 }  // namespace table_recognizer::client::table

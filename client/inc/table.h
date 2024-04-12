@@ -1,28 +1,25 @@
 #ifndef TABLE_RECOGNIZER_CLIENT_TABLE_H_
-#define TABLE_RECOGNIZER_CLIENT_LINE_TABLE_H_
+#define TABLE_RECOGNIZER_CLIENT_TABLE_H_
 
-#define _USE_MATH_DEFINES
-#include <math.h>
-
-#include <iostream>
-#include <opencv2/opencv.hpp>
+#include <iomanip>
+#include <vector>
 
 namespace table_recognizer::client::table {
 
 class Table {
-  std::string** table;
-  int Height;
-  int Width;
+  std::vector<std::vector<std::string>> table_;
+  size_t height_;
+  size_t width_;
 
  public:
-  Table(int NWidth, int NHeight);
+  Table(size_t width, size_t height);
 
-  std::string get(int x, int y);
-  void set(int x, int y, std::string data);
-  int getMx();
-  int getMy();
+  size_t getWidth();
+  size_t getHeight();
+  std::string getCell(size_t x, size_t y);
+  void setCell(size_t x, size_t y, std::string data);
 };
 
 }  // namespace table_recognizer::client::table
 
-#endif
+#endif  // TABLE_RECOGNIZER_CLIENT_TABLE_H_
