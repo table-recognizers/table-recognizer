@@ -28,5 +28,5 @@ foreach(TEST_SRC ${TEST_SOURCES})
 endforeach()
 
 add_custom_target(run_tests ALL
-  COMMAND ${CMAKE_CTEST_COMMAND}
+  COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
   DEPENDS ${TEST_TARGETS})
