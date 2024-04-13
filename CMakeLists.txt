@@ -42,8 +42,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 message("[${PROJECT_NAME}] googletest library has been populated")
 
+# Adding project components ===================================================
 set(BUILD_COMPONENT "BOTH" CACHE STRING "Component to build (CLIENT, SERVER, or BOTH)")
-
 add_subdirectory(utils)
 
 if(${BUILD_COMPONENT} STREQUAL "CLIENT" OR ${BUILD_COMPONENT} STREQUAL "BOTH")
