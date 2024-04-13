@@ -4,9 +4,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 
+# Adding opencv library =======================================================
 message("OpenCV_DIR is '$ENV{OpenCV_DIR}'")
-
 find_package(OpenCV REQUIRED)
+message("[${PROJECT_NAME}] opencv library has been populated")
 
 # Adding cpp-httplib library ==================================================
 FetchContent_Declare(httplib
@@ -16,7 +17,7 @@ FetchContent_Declare(httplib
 )
 set(HTTPLIB_COMPILE ON)
 FetchContent_MakeAvailable(httplib)
-# =============================================================================
+message("[${PROJECT_NAME}] httplib library has been populated")
 
 # Adding rapidjson library ====================================================
 FetchContent_Declare(rapidjson
@@ -25,8 +26,10 @@ FetchContent_Declare(rapidjson
   GIT_SHALLOW TRUE
 )
 FetchContent_GetProperties(rapidjson)
+
 if(NOT rapidjson_POPULATED)
   FetchContent_Populate(rapidjson)
+  message("[${PROJECT_NAME}] rapidjson library has been populated")
 endif()
 
 # Adding googletest library ===================================================
@@ -37,6 +40,7 @@ FetchContent_Declare(googletest
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+message("[${PROJECT_NAME}] googletest library has been populated")
 
 set(BUILD_COMPONENT "BOTH" CACHE STRING "Component to build (CLIENT, SERVER, or BOTH)")
 
