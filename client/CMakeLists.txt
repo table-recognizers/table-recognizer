@@ -1,9 +1,10 @@
-set(SRC_DIR src)
+set(SRC_DIR .)
 set(INC_DIR ..)
 set(TEST_DIR test)
 
 # Creating a static library from sources
-file(GLOB SOURCES "${SRC_DIR}/*.cc")
+file(GLOB_RECURSE SOURCES "${SRC_DIR}/*.cc")
+list(FILTER SOURCES EXCLUDE REGEX "${SRC_DIR}/test/.*")
 get_filename_component(MAIN_FILE "${SRC_DIR}/main.cc" ABSOLUTE)
 list(REMOVE_ITEM SOURCES ${MAIN_FILE})
 add_library(client_sources STATIC ${SOURCES})
@@ -27,6 +28,6 @@ foreach(TEST_SRC ${TEST_SOURCES})
   list(APPEND TEST_TARGETS ${TEST_NAME})
 endforeach()
 
-add_custom_target(run_tests ALL
-  COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-  DEPENDS ${TEST_TARGETS})
+# add_custom_target(run_tests ALL
+# COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
+# DEPENDS ${TEST_TARGETS})

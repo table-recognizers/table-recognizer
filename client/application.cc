@@ -1,4 +1,4 @@
-#include "client/inc/application.h"
+#include "client/application.h"
 
 namespace table_recognizer::client::application {
 

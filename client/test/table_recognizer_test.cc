@@ -1,6 +1,6 @@
-#include "client/inc/table_recognizer.h"
+#include "client/image_processing/table_recognizer.h"
 
-#include "client/inc/image_loader.h"
+#include "client/image_processing/image_loader.h"
 #include "gtest/gtest.h"
 
 namespace tr = table_recognizer::client::table_recognizer;

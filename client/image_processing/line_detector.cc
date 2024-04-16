@@ -1,4 +1,4 @@
-#include "client/inc/line_detector.h"
+#include "client/image_processing/line_detector.h"
 
 namespace table_recognizer::client::line_detector {
 
