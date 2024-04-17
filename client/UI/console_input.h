@@ -4,10 +4,10 @@
 #include <iostream>
 #include <string>
 
-namespace table_recognizer::client::console_input {
+namespace table_recognizer::client::UI {
 
 std::string ReadString(const std::string& prompt);
 
-}  // namespace table_recognizer::client::console_input
+}  // namespace table_recognizer::client::UI
 
 #endif  // TABLE_RECOGNIZER_CLIENT_CONSOLE_INPUT_H_
