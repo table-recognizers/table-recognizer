@@ -1,10 +1,10 @@
 #include "client/image_processing/table_recognizer.h"
 
-namespace table_recognizer::client::table_recognizer {
+namespace table_recognizer::client::image_processing {
 
-table::Table Recognizer::Recognize(cv::Mat image) {
-  table::Table tab(1, 1);
+Table Recognizer::Recognize(cv::Mat image) {
+  Table tab(1, 1);
   return tab;
 }
 
-}  // namespace table_recognizer::client::table_recognizer
+}  // namespace table_recognizer::client::image_processing

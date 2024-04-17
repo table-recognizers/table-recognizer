@@ -9,13 +9,13 @@
 
 #include "client/image_processing/table.h"
 
-namespace table_recognizer::client::table_recognizer {
+namespace table_recognizer::client::image_processing {
 
 class Recognizer {
  public:
-  table::Table Recognize(cv::Mat image);
+  Table Recognize(cv::Mat image);
 };
 
-}  // namespace table_recognizer::client::table_recognizer
+}  // namespace table_recognizer::client::image_processing
 
 #endif  // TABLE_RECOGNIZER_CLIENT_TABLE_RECOGNIZER_H_

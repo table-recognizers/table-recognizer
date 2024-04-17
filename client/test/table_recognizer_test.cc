@@ -3,11 +3,9 @@
 #include "client/image_processing/image_loader.h"
 #include "gtest/gtest.h"
 
-namespace tr = table_recognizer::client::table_recognizer;
-namespace t = table_recognizer::client::table;
-namespace il = table_recognizer::client::image_loader;
+namespace imgp = table_recognizer::client::image_processing;
 
-void AssertTablesEquality(t::Table& t1, t::Table& t2) {
+void AssertTablesEquality(imgp::Table& t1, imgp::Table& t2) {
   size_t t1_height = t1.getHeight();
   size_t t2_height = t2.getHeight();
   size_t t1_width = t1.getWidth();
@@ -27,7 +25,7 @@ void AssertTablesEquality(t::Table& t1, t::Table& t2) {
 }
 
 TEST(TableRecognizerTest, NormalTable) {
-  t::Table expected_table(19, 16);
+  imgp::Table expected_table(19, 16);
   expected_table.setCell(1, 0, "М3О-214Б-22");
   expected_table.setCell(3, 0, "17.02");
   expected_table.setCell(0, 1, "1");
@@ -35,10 +33,10 @@ TEST(TableRecognizerTest, NormalTable) {
   expected_table.setCell(3, 1, "+");
   // TODO: Fill the table
 
-  tr::Recognizer recognizer;
+  imgp::Recognizer recognizer;
   cv::Mat image =
-      il::LoadImage("../../client/test/tableRecognizerTestData/normal.jpg");
-  t::Table table = recognizer.Recognize(image);
+      imgp::LoadImage("../../client/test/tableRecognizerTestData/normal.jpg");
+  imgp::Table table = recognizer.Recognize(image);
 
   AssertTablesEquality(expected_table, table);
 }

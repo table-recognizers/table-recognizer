@@ -2,9 +2,8 @@
 
 namespace table_recognizer::client::application {
 
-namespace ld = table_recognizer::client::line_detector;
+namespace imgp = table_recognizer::client::image_processing;
 namespace ui = table_recognizer::client::UI;
-namespace table = table_recognizer::client::table;
 namespace utils = table_recognizer::utils;
 
 cv::Mat Application::GetImage() {
@@ -15,7 +14,7 @@ cv::Mat Application::GetImage() {
 
 std::vector<utils::Line> Application::GetLinesFromImage(
     const cv::Mat image, cv::Mat& detected_edges) {
-  std::vector<utils::Line> lines = ld::DetectLines(image, detected_edges);
+  std::vector<utils::Line> lines = imgp::DetectLines(image, detected_edges);
   return lines;
 }
 

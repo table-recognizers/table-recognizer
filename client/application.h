@@ -15,9 +15,8 @@
 
 namespace table_recognizer::client::application {
 
-namespace ld = table_recognizer::client::line_detector;
+namespace imgp = table_recognizer::client::image_processing;
 namespace ui = table_recognizer::client::UI;
-namespace table = table_recognizer::client::table;
 namespace utils = table_recognizer::utils;
 
 #define SERVER_ADDRESS "127.0.0.1"

@@ -4,7 +4,7 @@
 #include <iomanip>
 #include <vector>
 
-namespace table_recognizer::client::table {
+namespace table_recognizer::client::image_processing {
 
 class Table {
   std::vector<std::vector<std::string>> table_;
@@ -20,6 +20,6 @@ class Table {
   void setCell(size_t x, size_t y, std::string data);
 };
 
-}  // namespace table_recognizer::client::table
+}  // namespace table_recognizer::client::image_processing
 
 #endif  // TABLE_RECOGNIZER_CLIENT_TABLE_H_

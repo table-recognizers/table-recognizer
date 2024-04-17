@@ -1,6 +1,6 @@
 #include "client/image_processing/table.h"
 
-namespace table_recognizer::client::table {
+namespace table_recognizer::client::image_processing {
 
 Table::Table(size_t width, size_t height) : width_(width), height_(height) {
   table_ = std::vector<std::vector<std::string>>(
@@ -17,4 +17,4 @@ void Table::setCell(size_t x, size_t y, std::string data) {
   table_[y][x] = data;
 }
 
-}  // namespace table_recognizer::client::table
+}  // namespace table_recognizer::client::image_processing

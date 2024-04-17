@@ -1,6 +1,6 @@
 #include "client/image_processing/line_detector.h"
 
-namespace table_recognizer::client::line_detector {
+namespace table_recognizer::client::image_processing {
 
 namespace utils = table_recognizer::utils;
 
@@ -27,4 +27,4 @@ std::vector<utils::Line> DetectLines(const cv::Mat& image,
   return lines;
 }
 
-}  // namespace table_recognizer::client::line_detector
+}  // namespace table_recognizer::client::image_processing

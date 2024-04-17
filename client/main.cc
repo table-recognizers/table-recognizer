@@ -1,6 +1,6 @@
 #include "client/application.h"
 
-namespace ld = table_recognizer::client::line_detector;
+namespace imgp = table_recognizer::client::image_processing;
 namespace cliUI = table_recognizer::client::UI;
 namespace utils = table_recognizer::utils;
 
