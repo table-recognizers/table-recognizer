@@ -22,6 +22,14 @@ namespace utils = table_recognizer::utils;
 #define SERVER_ADDRESS "127.0.0.1"
 #define SERVER_PORT 8080
 
+#define LINE_DETECTOR_CANNY_THRESHOLD1 50
+#define LINE_DETECTOR_CANNY_THRESHOLD2 200
+#define LINE_DETECTOR_HOUGH_RHO 1
+#define LINE_DETECTOR_HOUGH_THETA M_PI / 180
+#define LINE_DETECTOR_HOUGH_THRESHOLD 220
+#define LINE_DETECTOR_HOUGH_MIN_LINE_LENGTH 10
+#define LINE_DETECTOR_HOUGH_MAX_LINE_GAP 250
+
 class Application {
  public:
   std::unique_ptr<table_recognizer::client::UI::UI_base> UI_;

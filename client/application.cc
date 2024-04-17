@@ -14,7 +14,16 @@ cv::Mat Application::GetImage() {
 
 std::vector<utils::Line> Application::GetLinesFromImage(
     const cv::Mat image, cv::Mat& detected_edges) {
-  std::vector<utils::Line> lines = imgp::DetectLines(image, detected_edges);
+  imgp::CannyParameters line_detector_canny_params(
+      LINE_DETECTOR_CANNY_THRESHOLD1, LINE_DETECTOR_CANNY_THRESHOLD2);
+  imgp::HoughParameters line_detector_hough_params(
+      LINE_DETECTOR_HOUGH_RHO, LINE_DETECTOR_HOUGH_THETA,
+      LINE_DETECTOR_HOUGH_THRESHOLD, LINE_DETECTOR_HOUGH_MIN_LINE_LENGTH,
+      LINE_DETECTOR_HOUGH_MAX_LINE_GAP);
+  imgp::LineDetector line_detector(image, line_detector_canny_params,
+                                   line_detector_hough_params);
+  std::vector<utils::Line> lines = line_detector.DetectLines();
+  detected_edges = line_detector.getDetectedEdges();
   return lines;
 }
 
@@ -35,7 +44,8 @@ void Application::ShowLinesOnImage(const cv::Mat image,
   if (cv::waitKey(0) >= 0) return;
 }
 
-httplib::Result Application::TrySendLinesToServer(std::vector<utils::Line> lines) {
+httplib::Result Application::TrySendLinesToServer(
+    std::vector<utils::Line> lines) {
   rapidjson::Document d;
   d.SetArray();
   for (const auto& line : lines) {
