@@ -1,5 +1,5 @@
-#ifndef TABLE_RECOGNIZER_CLIENT_UI_H_
-#define TABLE_RECOGNIZER_CLIENT_UI_H_
+#ifndef TABLE_RECOGNIZER_CLIENT_UI_BASE_H_
+#define TABLE_RECOGNIZER_CLIENT_UI_BASE_H_
 
 #include <string>
 
@@ -13,4 +13,4 @@ class UI_base {
 
 }  // namespace table_recognizer::client::UI
 
-#endif  // #define TABLE_RECOGNIZER_CLIENT_UI_H_
+#endif  // TABLE_RECOGNIZER_CLIENT_UI_BASE_H_
