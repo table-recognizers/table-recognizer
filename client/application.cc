@@ -14,14 +14,8 @@ cv::Mat Application::GetImage() {
 
 std::vector<utils::Line> Application::GetLinesFromImage(
     const cv::Mat image, cv::Mat& detected_edges) {
-  imgp::CannyParameters line_detector_canny_params(
-      LINE_DETECTOR_CANNY_THRESHOLD1, LINE_DETECTOR_CANNY_THRESHOLD2);
-  imgp::HoughParameters line_detector_hough_params(
-      LINE_DETECTOR_HOUGH_RHO, LINE_DETECTOR_HOUGH_THETA,
-      LINE_DETECTOR_HOUGH_THRESHOLD, LINE_DETECTOR_HOUGH_MIN_LINE_LENGTH,
-      LINE_DETECTOR_HOUGH_MAX_LINE_GAP);
-  imgp::LineDetector line_detector(image, line_detector_canny_params,
-                                   line_detector_hough_params);
+  imgp::LineDetector line_detector(image, line_detector_canny_params_,
+                                   line_detector_hough_params_);
   std::vector<utils::Line> lines = line_detector.DetectLines();
   detected_edges = line_detector.getDetectedEdges();
   return lines;
@@ -73,6 +67,12 @@ httplib::Result Application::TrySendLinesToServer(
 }
 
 Application::Application(std::unique_ptr<ui::UI_base> UI)
-    : UI_(std::move(UI)) {}
+    : UI_(std::move(UI)),
+      line_detector_canny_params_(LINE_DETECTOR_CANNY_THRESHOLD1,
+                                  LINE_DETECTOR_CANNY_THRESHOLD2),
+      line_detector_hough_params_(
+          LINE_DETECTOR_HOUGH_RHO, LINE_DETECTOR_HOUGH_THETA,
+          LINE_DETECTOR_HOUGH_THRESHOLD, LINE_DETECTOR_HOUGH_MIN_LINE_LENGTH,
+          LINE_DETECTOR_HOUGH_MAX_LINE_GAP) {}
 
 }  // namespace table_recognizer::client::application

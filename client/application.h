@@ -31,6 +31,10 @@ namespace utils = table_recognizer::utils;
 #define LINE_DETECTOR_HOUGH_MAX_LINE_GAP 250
 
 class Application {
+ private:
+  imgp::CannyParameters line_detector_canny_params_;
+  imgp::HoughParameters line_detector_hough_params_;
+
  public:
   std::unique_ptr<table_recognizer::client::UI::UI_base> UI_;
 
