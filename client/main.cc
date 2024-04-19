@@ -21,7 +21,8 @@ int main() {
   } else {
     std::cout << "Failed to send data to the server" << std::endl;
   }
-  app.ShowLinesOnImage(detected_edges_on_image, lines_on_image);
+  // app.ShowLinesOnImage(detected_edges_on_image, lines_on_image);
+  app.RunLineDetectorAdjuster(inputted_image);
 
   return 0;
 }

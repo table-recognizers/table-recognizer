@@ -66,6 +66,12 @@ httplib::Result Application::TrySendLinesToServer(
   return res;
 }
 
+void Application::RunLineDetectorAdjuster(cv::Mat& image) {
+  imgp::LineDetectorAdjuster line_detector_adjuster(
+      image, line_detector_canny_params_, line_detector_hough_params_);
+  line_detector_adjuster.Run();
+}
+
 Application::Application(std::unique_ptr<ui::UI_base> UI)
     : UI_(std::move(UI)),
       line_detector_canny_params_(LINE_DETECTOR_CANNY_THRESHOLD1,

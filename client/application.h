@@ -7,6 +7,7 @@
 #include "client/UI/UI_base.h"
 #include "client/UI/console_UI.h"
 #include "client/image_processing/line_detector.h"
+#include "client/image_processing/line_detector_adjuster.h"
 #include "client/image_processing/table.h"
 #include "httplib.h"
 #include "rapidjson/document.h"
@@ -44,6 +45,7 @@ class Application {
   void ShowLinesOnImage(const cv::Mat image,
                         const std::vector<utils::Line> lines);
   httplib::Result TrySendLinesToServer(std::vector<utils::Line> lines);
+  void RunLineDetectorAdjuster(cv::Mat& image);
   Application(std::unique_ptr<ui::UI_base> UI);
 };
 
