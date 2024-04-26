@@ -1,4 +1,4 @@
-#include "client/image_processing/table_recognizer.h"
+#include "client/image_processing/table_detector.h"
 
 #include "client/image_processing/image_loader.h"
 #include "gtest/gtest.h"
@@ -33,10 +33,10 @@ TEST(TableRecognizerTest, NormalTable) {
   expected_table.setCell(3, 1, "+");
   // TODO: Fill the table
 
-  imgp::Recognizer recognizer;
+  imgp::TableDetector table_detector;
   cv::Mat image =
       imgp::LoadImage("../../client/test/tableRecognizerTestData/normal.jpg");
-  imgp::Table table = recognizer.Recognize(image);
+  imgp::Table table = table_detector.Recognize(image);
 
   AssertTablesEquality(expected_table, table);
 }
