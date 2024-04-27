@@ -5,6 +5,7 @@
 #include <math.h>
 
 #include <iostream>
+#include <numeric>
 #include <opencv2/opencv.hpp>
 
 #include "client/image_processing/table.h"
@@ -13,6 +14,7 @@ namespace table_recognizer::client::image_processing {
 
 class TableDetector {
  public:
+  std::vector<cv::Rect> DetectCells(const cv::Mat input_image) const;
   Table Recognize(cv::Mat image);
 };
 
