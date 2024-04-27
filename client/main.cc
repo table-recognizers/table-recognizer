@@ -1,4 +1,5 @@
 #include "client/application.h"
+#include "client/image_processing/table_detector.h"
 
 namespace imgp = table_recognizer::client::image_processing;
 namespace cliUI = table_recognizer::client::UI;
@@ -12,17 +13,16 @@ int main() {
   application::Application app(std::move(ui));
 
   cv::Mat inputted_image = app.GetImage();
-  cv::Mat detected_edges_on_image;
-  std::vector<utils::Line> lines_on_image =
-      app.GetLinesFromImage(inputted_image, detected_edges_on_image);
-  httplib::Result result = app.TrySendLinesToServer(lines_on_image);
-  if (result && result->status == 200) {
-    std::cout << "Data sent successfully to the server" << std::endl;
-  } else {
-    std::cout << "Failed to send data to the server" << std::endl;
+  imgp::TableDetector table_detector;
+  auto detected_cells = table_detector.DetectCells(inputted_image);
+  for (auto cell : detected_cells) {
+    cv::rectangle(inputted_image, cell, cv::Scalar(0, 255, 0), 2);
   }
-  // app.ShowLinesOnImage(detected_edges_on_image, lines_on_image);
-  app.RunLineDetectorAdjuster(inputted_image);
+
+  cv::namedWindow("Test", cv::WINDOW_GUI_EXPANDED);
+  cv::imshow("Test", inputted_image);
+
+  cv::waitKey(0);
 
   return 0;
 }
