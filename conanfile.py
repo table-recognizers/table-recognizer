@@ -3,7 +3,7 @@ from conan import ConanFile
 from conan.tools.cmake import cmake_layout
 from conan.tools.cmake import CMake
 
-class FuckingShit(ConanFile):
+class TableRecognizerConanFile(ConanFile):
     generators = "CMakeDeps", "CMakeToolchain"
     settings = "os", "compiler", "build_type", "arch"
 
