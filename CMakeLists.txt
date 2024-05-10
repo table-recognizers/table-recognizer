@@ -9,13 +9,7 @@ find_package(OpenCV REQUIRED)
 message("[${PROJECT_NAME}] opencv library has been populated")
 
 # Adding cpp-httplib library ==================================================
-FetchContent_Declare(httplib
-  GIT_REPOSITORY https://github.com/yhirose/cpp-httplib
-  GIT_TAG v0.15.3
-  GIT_SHALLOW TRUE
-)
-set(HTTPLIB_COMPILE ON)
-FetchContent_MakeAvailable(httplib)
+find_package(httplib REQUIRED)
 message("[${PROJECT_NAME}] httplib library has been populated")
 
 # Adding rapidjson library ====================================================

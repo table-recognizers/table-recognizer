@@ -13,7 +13,7 @@ target_include_directories(client_sources PUBLIC ${INC_DIR} ${OpenCV_INCLUDE_DIR
 
 # Creating executable file for main.cpp
 add_executable(client_main ${SRC_DIR}/main.cc)
-target_link_libraries(client_main client_sources ${OpenCV_LIBS} httplib)
+target_link_libraries(client_main client_sources ${OpenCV_LIBS} httplib::httplib)
 
 # Add and run tests
 enable_testing()

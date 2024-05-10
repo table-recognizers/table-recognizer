@@ -9,6 +9,7 @@ class FuckingShit(ConanFile):
 
     def requirements(self):
         self.requires("opencv/4.9.0")
+        self.requires("cpp-httplib/0.15.3")
 
     def layout(self):
         cmake_layout(self)
