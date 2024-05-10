@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 
 # Adding opencv library =======================================================
-message("OpenCV_DIR is '$ENV{OpenCV_DIR}'")
 find_package(OpenCV REQUIRED)
 message("[${PROJECT_NAME}] opencv library has been populated")
 
