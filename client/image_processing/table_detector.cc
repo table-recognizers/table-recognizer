@@ -98,7 +98,22 @@ std::vector<cv::Rect> TableDetector::DetectCells(
 }
 
 Table TableDetector::Recognize(cv::Mat image) {
-  Table tab(1, 1);
+  std::vector<cv::Rect> cells = DetectCells(image);
+
+  size_t table_width;
+  for (size_t i = 1; i < cells.size(); i++) {
+    if (abs(cells[i].y - cells[i - 1].y) > 5) {
+      table_width = i;
+      break;
+    }
+  }
+
+  size_t table_height = cells.size() / table_width;
+
+  std::cout << "table_width: " << table_width << std::endl;
+  std::cout << "table_height: " << table_height << std::endl;
+
+  Table tab(table_width, table_height);
   return tab;
 }
 

@@ -14,6 +14,7 @@ int main() {
 
   cv::Mat inputted_image = app.GetImage();
   imgp::TableDetector table_detector;
+  table_detector.Recognize(inputted_image);
   auto detected_cells = table_detector.DetectCells(inputted_image);
   for (auto cell : detected_cells) {
     cv::rectangle(inputted_image, cell, cv::Scalar(0, 255, 0), 2);
