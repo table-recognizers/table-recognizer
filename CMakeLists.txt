@@ -35,6 +35,10 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 message("[${PROJECT_NAME}] googletest library has been populated")
 
+# Adding tesseract library ====================================================
+find_package(Tesseract REQUIRED)
+message("[${PROJECT_NAME}] tesseract library has been populated")
+
 # Adding project components ===================================================
 set(BUILD_COMPONENT "BOTH" CACHE STRING "Component to build (CLIENT, SERVER, or BOTH)")
 add_subdirectory(utils)
