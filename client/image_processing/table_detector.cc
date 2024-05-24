@@ -113,8 +113,45 @@ Table TableDetector::Recognize(cv::Mat image) {
   std::cout << "table_width: " << table_width << std::endl;
   std::cout << "table_height: " << table_height << std::endl;
 
+  tesseract::TessBaseAPI *tesseract = new tesseract::TessBaseAPI();
+// tesseract->Init()
+// tesseract->Init()
+#ifdef TESSDATA_PATH
+  const char *tessdata_path = TESSDATA_PATH;
+#endif
+
+  if (tesseract->Init(tessdata_path, "rus")) {
+    fprintf(stderr, "Cound not initialize tesseract.\n");
+    exit(1);
+  }
+
+  for (size_t i = 0; i < cells.size(); i++) {
+    cv::Mat cell_image = image(cells[i]);
+    cv::cvtColor(cell_image, cell_image, cv::COLOR_BGR2GRAY);
+    auto pix_cell_image = mat8ToPix(cell_image);
+    tesseract->SetImage(pix_cell_image);
+    char *chars_text = tesseract->GetUTF8Text();
+    std::string text(chars_text);
+
+    std::cout << i << "\"" << chars_text << "\"" << std::endl;
+
+    delete[] chars_text;
+    pixDestroy(&pix_cell_image);
+  }
+  tesseract->End();
+
   Table tab(table_width, table_height);
   return tab;
+}
+
+PIX *TableDetector::mat8ToPix(cv::Mat &mat8) {
+  PIX *pixd = pixCreate(mat8.size().width, mat8.size().height, 8);
+  for (int y = 0; y < mat8.rows; y++) {
+    for (int x = 0; x < mat8.cols; x++) {
+      pixSetPixel(pixd, x, y, (l_uint32)mat8.at<uchar>(y, x));
+    }
+  }
+  return pixd;
 }
 
 }  // namespace table_recognizer::client::image_processing
