@@ -16,8 +16,10 @@ int main() {
   imgp::TableDetector table_detector;
   table_detector.Recognize(inputted_image);
   auto detected_cells = table_detector.DetectCells(inputted_image);
+  int green = 0.0;
   for (auto cell : detected_cells) {
-    cv::rectangle(inputted_image, cell, cv::Scalar(0, 255, 0), 2);
+    cv::rectangle(inputted_image, cell, cv::Scalar(0, green, 0), 2);
+    green = (green + 4);
   }
 
   cv::namedWindow("Test", cv::WINDOW_GUI_EXPANDED);
