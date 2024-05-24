@@ -8,12 +8,17 @@ list(FILTER SOURCES EXCLUDE REGEX "${SRC_DIR}/test/.*")
 get_filename_component(MAIN_FILE "${SRC_DIR}/main.cc" ABSOLUTE)
 list(REMOVE_ITEM SOURCES ${MAIN_FILE})
 add_library(client_sources STATIC ${SOURCES})
-target_link_libraries(client_sources PRIVATE utils_lib)
-target_include_directories(client_sources PUBLIC ${INC_DIR} ${OpenCV_INCLUDE_DIRS} ${rapidjson_SOURCE_DIR}/include)
+target_link_libraries(client_sources PRIVATE utils_lib Tesseract::libtesseract)
+target_include_directories(client_sources PUBLIC ${INC_DIR}
+                                                 ${Leptonica_INCLUDE_DIRS}
+                                                 ${Tesseract_INCLUDE_DIRS}
+                                                 ${OpenCV_INCLUDE_DIRS}
+                                                 ${rapidjson_SOURCE_DIR}/include)
+
 
 # Creating executable file for main.cpp
 add_executable(client_main ${SRC_DIR}/main.cc)
-target_link_libraries(client_main client_sources ${OpenCV_LIBS} httplib::httplib)
+target_link_libraries(client_main client_sources ${OpenCV_LIBS} httplib::httplib Tesseract::libtesseract)
 
 # Add and run tests
 enable_testing()

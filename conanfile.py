@@ -11,6 +11,7 @@ class TableRecognizerConanFile(ConanFile):
         self.requires("opencv/4.9.0")
         self.requires("cpp-httplib/0.15.3")
         self.requires("libpng/1.6.43", override=True)
+        self.requires("leptonica/1.83.1")
         self.requires("tesseract/5.3.3")
 
     def layout(self):
