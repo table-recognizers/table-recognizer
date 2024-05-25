@@ -94,6 +94,20 @@ std::vector<cv::Rect> TableDetector::DetectCells(
     }
   }
 
+  size_t table_width;
+  for (size_t i = 1; i < boxes.size(); i++) {
+    if (abs(boxes[i].y - boxes[i - 1].y) > 5) {
+      table_width = i;
+      break;
+    }
+  }
+
+  for (size_t i = 0; i < boxes.size() / table_width; i++) {
+    std::sort(boxes.begin() + (i * table_width),
+              boxes.begin() + (i * table_width + table_width),
+              [](cv::Rect left, cv::Rect right) { return left.x < right.x; });
+  }
+
   return boxes;
 }
 
