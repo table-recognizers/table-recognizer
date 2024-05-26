@@ -46,7 +46,7 @@ struct RectsTable {
 
 class TableDetector {
  public:
-  std::vector<cv::Rect> DetectCells(const cv::Mat input_image) const;
+  RectsTable DetectCells(const cv::Mat input_image) const;
   Table Recognize(cv::Mat image);
 
  private:

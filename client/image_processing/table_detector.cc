@@ -40,8 +40,7 @@ RectsTable::Iterator RectsTable::end() const {
   return Iterator(rects_.get(), rects_->size());
 }
 
-std::vector<cv::Rect> TableDetector::DetectCells(
-    const cv::Mat input_image) const {
+RectsTable TableDetector::DetectCells(const cv::Mat input_image) const {
   cv::Mat gray_image;
   cv::cvtColor(input_image, gray_image, cv::COLOR_BGR2GRAY);
 
@@ -124,50 +123,41 @@ std::vector<cv::Rect> TableDetector::DetectCells(
   boundingBoxes = sortedBoundingBoxes;
   ////
 
-  std::vector<cv::Rect> boxes;
+  auto boxes = std::make_unique<std::vector<cv::Rect>>();
   for (size_t i = 0; i < contours.size(); i++) {
     cv::Rect rect = cv::boundingRect(contours[i]);
     if (rect.width < 1000 && rect.height < 500) {
-      boxes.push_back(rect);
+      boxes->push_back(rect);
     }
   }
 
   size_t table_width;
-  for (size_t i = 1; i < boxes.size(); i++) {
-    if (abs(boxes[i].y - boxes[i - 1].y) > 5) {
+  for (size_t i = 1; i < boxes->size(); i++) {
+    if (abs(boxes->at(i).y - boxes->at(i - 1).y) > 5) {
       table_width = i;
       break;
     }
   }
 
-  for (size_t i = 0; i < boxes.size() / table_width; i++) {
-    std::sort(boxes.begin() + (i * table_width),
-              boxes.begin() + (i * table_width + table_width),
+  for (size_t i = 0; i < boxes->size() / table_width; i++) {
+    std::sort(boxes->begin() + (i * table_width),
+              boxes->begin() + (i * table_width + table_width),
               [](cv::Rect left, cv::Rect right) { return left.x < right.x; });
   }
 
-  return boxes;
+  RectsTable coordsOfCellsTable(std::move(boxes), table_width);
+
+  return coordsOfCellsTable;
 }
 
 Table TableDetector::Recognize(cv::Mat image) {
-  std::vector<cv::Rect> cells = DetectCells(image);
+  RectsTable coordsOfCells = DetectCells(image);
 
-  size_t table_width;
-  for (size_t i = 1; i < cells.size(); i++) {
-    if (abs(cells[i].y - cells[i - 1].y) > 5) {
-      table_width = i;
-      break;
-    }
-  }
-
-  size_t table_height = cells.size() / table_width;
-
-  std::cout << "table_width: " << table_width << std::endl;
-  std::cout << "table_height: " << table_height << std::endl;
+  std::cout << "table_width: " << coordsOfCells.GetWidth() << std::endl;
+  std::cout << "table_height: " << coordsOfCells.GetHeight() << std::endl;
 
   tesseract::TessBaseAPI *tesseract = new tesseract::TessBaseAPI();
-// tesseract->Init()
-// tesseract->Init()
+
 #ifdef TESSDATA_PATH
   const char *tessdata_path = TESSDATA_PATH;
 #endif
@@ -177,22 +167,25 @@ Table TableDetector::Recognize(cv::Mat image) {
     exit(1);
   }
 
-  for (size_t i = 0; i < cells.size(); i++) {
-    cv::Mat cell_image = image(cells[i]);
-    cv::cvtColor(cell_image, cell_image, cv::COLOR_BGR2GRAY);
-    auto pix_cell_image = mat8ToPix(cell_image);
-    tesseract->SetImage(pix_cell_image);
-    char *chars_text = tesseract->GetUTF8Text();
-    std::string text(chars_text);
+  for (size_t x = 0; x < coordsOfCells.GetWidth(); x++) {
+    for (size_t y = 0; y < coordsOfCells.GetHeight(); y++) {
+      cv::Mat cell_image = image(coordsOfCells.GetCell(x, y));
+      cv::cvtColor(cell_image, cell_image, cv::COLOR_BGR2GRAY);
+      auto pix_cell_image = mat8ToPix(cell_image);
+      tesseract->SetImage(pix_cell_image);
+      char *chars_text = tesseract->GetUTF8Text();
+      std::string text(chars_text);
 
-    std::cout << i << "\"" << chars_text << "\"" << std::endl;
+      std::cout << x << "." << y << "\"" << chars_text << "\"" << std::endl;
 
-    delete[] chars_text;
-    pixDestroy(&pix_cell_image);
+      delete[] chars_text;
+      pixDestroy(&pix_cell_image);
+    }
   }
+
   tesseract->End();
 
-  Table tab(table_width, table_height);
+  Table tab(coordsOfCells.GetWidth(), coordsOfCells.GetHeight());
   return tab;
 }
 
