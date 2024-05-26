@@ -2,6 +2,44 @@
 
 namespace table_recognizer::client::image_processing {
 
+RectsTable::RectsTable(std::unique_ptr<std::vector<cv::Rect>> rects,
+                       size_t width)
+    : rects_(std::move(rects)),
+      width_(width),
+      height_(rects_->size() / width) {}
+
+size_t RectsTable::GetWidth() const { return width_; }
+
+size_t RectsTable::GetHeight() const { return height_; }
+
+cv::Rect RectsTable::GetCell(size_t x, size_t y) const {
+  return rects_->at(y * width_ + x);
+}
+
+cv::Rect RectsTable::GetCell(size_t i) const { return rects_->at(i); }
+
+RectsTable::Iterator::Iterator(const std::vector<cv::Rect> *rects, size_t index)
+    : rects_(rects), index_(index) {}
+
+cv::Rect RectsTable::Iterator::operator*() const { return (*rects_)[index_]; }
+
+RectsTable::Iterator &RectsTable::Iterator::operator++() {
+  ++index_;
+  return *this;
+}
+
+bool RectsTable::Iterator::operator!=(const Iterator &other) const {
+  return index_ != other.index_;
+}
+
+RectsTable::Iterator RectsTable::begin() const {
+  return Iterator(rects_.get(), 0);
+}
+
+RectsTable::Iterator RectsTable::end() const {
+  return Iterator(rects_.get(), rects_->size());
+}
+
 std::vector<cv::Rect> TableDetector::DetectCells(
     const cv::Mat input_image) const {
   cv::Mat gray_image;
