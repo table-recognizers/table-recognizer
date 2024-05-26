@@ -167,8 +167,9 @@ Table TableDetector::Recognize(cv::Mat image) {
     exit(1);
   }
 
-  for (size_t x = 0; x < coordsOfCells.GetWidth(); x++) {
+  for (size_t x = 0; x < 2; x++) {
     for (size_t y = 0; y < coordsOfCells.GetHeight(); y++) {
+      if (x == 0 && y == 0) continue;
       cv::Mat cell_image = image(coordsOfCells.GetCell(x, y));
       cv::cvtColor(cell_image, cell_image, cv::COLOR_BGR2GRAY);
       auto pix_cell_image = mat8ToPix(cell_image);
