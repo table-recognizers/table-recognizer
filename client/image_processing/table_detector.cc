@@ -127,7 +127,10 @@ RectsTable TableDetector::DetectCells(const cv::Mat input_image) const {
   for (size_t i = 0; i < contours.size(); i++) {
     cv::Rect rect = cv::boundingRect(contours[i]);
     if (rect.width < 1000 && rect.height < 500) {
-      boxes->push_back(rect);
+      cv::Rect new_rect = rect;
+      new_rect.width -= 5;
+      new_rect.height -= 5;
+      boxes->push_back(new_rect);
     }
   }
 
@@ -152,6 +155,7 @@ RectsTable TableDetector::DetectCells(const cv::Mat input_image) const {
 
 Table TableDetector::Recognize(cv::Mat image) {
   RectsTable coordsOfCells = DetectCells(image);
+  Table table(coordsOfCells.GetWidth(), coordsOfCells.GetHeight());
 
   std::cout << "table_width: " << coordsOfCells.GetWidth() << std::endl;
   std::cout << "table_height: " << coordsOfCells.GetHeight() << std::endl;
@@ -178,6 +182,7 @@ Table TableDetector::Recognize(cv::Mat image) {
       std::string text(chars_text);
 
       std::cout << x << "." << y << "\"" << chars_text << "\"" << std::endl;
+      table.setCell(x, y, text);
 
       delete[] chars_text;
       pixDestroy(&pix_cell_image);
@@ -185,9 +190,31 @@ Table TableDetector::Recognize(cv::Mat image) {
   }
 
   tesseract->End();
+  cv::namedWindow("Test", cv::WINDOW_GUI_EXPANDED);
+  for (size_t x = 2; x < coordsOfCells.GetHeight(); x++) {
+    for (size_t y = 0; y < coordsOfCells.GetHeight(); y++) {
+      cv::Mat cell_image = image(coordsOfCells.GetCell(x, y));
+      cv::Mat gray_cell_image;
+      cv::cvtColor(cell_image, gray_cell_image, cv::COLOR_BGR2GRAY);
 
-  Table tab(coordsOfCells.GetWidth(), coordsOfCells.GetHeight());
-  return tab;
+      cv::Mat thresholded_image;
+      cv::threshold(gray_cell_image, thresholded_image, 100, 255,
+                    cv::THRESH_BINARY);
+
+      double white_pixel_percentage =
+          cv::countNonZero(thresholded_image) /
+          (double)(thresholded_image.rows * thresholded_image.cols);
+
+      if (white_pixel_percentage <= 0.97) {
+        cv::imshow("Test", thresholded_image);
+        std::cout << x << "." << y << "\"" << "+" << "\"" << std::endl;
+        table.setCell(x, y, "+");
+        cv::waitKey(0);
+      }
+    }
+  }
+
+  return table;
 }
 
 PIX *TableDetector::mat8ToPix(cv::Mat &mat8) {
