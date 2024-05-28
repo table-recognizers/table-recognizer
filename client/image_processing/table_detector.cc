@@ -206,10 +206,10 @@ Table TableDetector::Recognize(cv::Mat image) {
           (double)(thresholded_image.rows * thresholded_image.cols);
 
       if (white_pixel_percentage <= 0.97) {
-        cv::imshow("Test", thresholded_image);
+        // cv::imshow("Test", thresholded_image);
         std::cout << x << "." << y << "\"" << "+" << "\"" << std::endl;
         table.setCell(x, y, "+");
-        cv::waitKey(0);
+        // cv::waitKey(0);
       }
     }
   }
