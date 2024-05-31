@@ -50,6 +50,10 @@ endif()
 add_compile_definitions(TESSDATA_PATH="${tessdata_SOURCE_DIR}")
 message("[${PROJECT_NAME}] tesseract library has been populated")
 
+# Adding openxlsx library =====================================================
+find_package(OpenXLSX REQUIRED)
+message("[${PROJECT_NAME}] openxlsx library has been populated")
+
 # Adding project components ===================================================
 set(BUILD_COMPONENT "BOTH" CACHE STRING "Component to build (CLIENT, SERVER, or BOTH)")
 add_subdirectory(utils)

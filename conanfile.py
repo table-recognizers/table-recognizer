@@ -13,6 +13,7 @@ class TableRecognizerConanFile(ConanFile):
         self.requires("libpng/1.6.43", override=True)
         self.requires("leptonica/1.83.1")
         self.requires("tesseract/5.3.3")
+        self.requires("openxlsx/0.4.1")
 
     def layout(self):
         cmake_layout(self)

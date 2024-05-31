@@ -13,12 +13,13 @@ target_include_directories(client_sources PUBLIC ${INC_DIR}
                                                  ${Leptonica_INCLUDE_DIRS}
                                                  ${Tesseract_INCLUDE_DIRS}
                                                  ${OpenCV_INCLUDE_DIRS}
-                                                 ${rapidjson_SOURCE_DIR}/include)
+                                                 ${rapidjson_SOURCE_DIR}/include
+                                                 ${OpenXLSX_INCLUDE_DIRS})
 
 
 # Creating executable file for main.cpp
 add_executable(client_main ${SRC_DIR}/main.cc)
-target_link_libraries(client_main client_sources ${OpenCV_LIBS} httplib::httplib Tesseract::libtesseract)
+target_link_libraries(client_main client_sources ${OpenCV_LIBS} httplib::httplib Tesseract::libtesseract OpenXLSX::OpenXLSX)
 
 # Add and run tests
 enable_testing()
